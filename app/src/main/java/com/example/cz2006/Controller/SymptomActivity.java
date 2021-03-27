@@ -22,7 +22,7 @@ public class SymptomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_symptom);
 
         mFeverCheck = findViewById(R.id.check_fever);
         mSoreCheck = findViewById(R.id.check_sore);

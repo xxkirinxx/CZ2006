@@ -20,7 +20,7 @@ public class MozzieActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mozzie);
 
         ImageView mozziePhoto = (ImageView) findViewById(R.id.mozziePhoto); //get id of mozzie image
         mozziePhoto.setImageResource(R.drawable.mozzie);
