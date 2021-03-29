@@ -11,7 +11,3 @@ This tutorial is for unity, but the usage and installation of XAMMP is the same.
 Stored in the same directory as this ReadMe file are 3 .php file that is used to run SQL commands to retrieve database results.
 These .php file needs to be stored in database server and will be called by the java code. 
 If you are using XAMPP, these files need to be placed under C:\xampp\htdocs
-
-Hope this ReadMe helps. Otherwise, msg me. 
-
--Jian Yang
