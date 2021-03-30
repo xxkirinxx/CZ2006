@@ -11,6 +11,7 @@
     <string name="symptoms_checker">Symptoms Checker</string>
     <string name="profile">Profile</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="do_your_part">DO YOUR PART</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
