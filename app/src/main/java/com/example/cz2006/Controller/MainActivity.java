@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public void launchSymptom(View v){
         Intent i = new Intent(this, com.example.cz2006.Controller.SymptomActivity.class);
         startActivity(i);
-
+        this.finish();
     }
 
     public void launchLocation(View v){
