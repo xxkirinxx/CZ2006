@@ -40,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,11 +52,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.cz2006.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.cz2006.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
-public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class LocationActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private boolean mLocationPermissionGranted = false;
@@ -109,16 +111,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(LocationActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
-            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You can't make map requests", LENGTH_SHORT).show();
         }
         return false;
     }
 
     private boolean checkMapServices() {
         if (isServicesOK()) {
-            if (isMapsEnabled()) {
-                return true;
-            }
+            return isMapsEnabled();
         }
         return false;
     }
@@ -279,7 +279,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     LocationLatLng llg = new LocationLatLng();
                     llg.setLocLat(Double.parseDouble(res[0]));
                     llg.setLocLng(Double.parseDouble(res[1]));
-                    //llg.setlocCaseSize(ld.getCaseSize());
                     latLngs.add(llg);
                 }
                 if(latLngs.size()>0){
@@ -302,9 +301,21 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                         LocationLatLng ll = latLngs.get(k);
                         poly.add(new LatLng(ll.getLocLat(), ll.getLocLng()));
                     }
-
                     // Done! Add to map.
+                    poly.clickable(true);
+                    poly.zIndex(i);
                     mMap.addPolygon(poly);
+                    mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                        @Override
+                        public void onPolygonClick(Polygon polygon) {
+                            //Toast.makeText(LocationActivity.this,"Yeah",LENGTH_SHORT).show();
+                            int cs = (int)polygon.getZIndex();
+                            Intent i = new Intent(LocationActivity.this,ClusterPopActivity.class);
+                            i.putExtra("DengueClusterDesc",neaResult.get(cs).getDesc());
+                            i.putExtra("DengueClusterCS",neaResult.get(cs).getCaseSize());
+                            startActivity(i);
+                        }
+                    });
 
                 }else{
                     // Error handling
@@ -338,4 +349,5 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         }
 
     }
+
 }
