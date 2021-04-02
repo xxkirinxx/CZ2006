@@ -39,7 +39,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -196,14 +195,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
         LatLng Singapore = new LatLng(1.3521, 103.8198);
-        mMap.addMarker(new MarkerOptions().position(Singapore).title("Marker in Singapore"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Singapore));
+        //mMap.addMarker(new MarkerOptions().position(Singapore).title("Marker in Singapore"));
 
         getLocationPermission();
         int a = ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
         Log.d("CZ2006", String.valueOf(a));
         getLastKnownLocation();
         mMap.setMyLocationEnabled(true);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Singapore, 10));
     }
 
     private void getLocationPermission() {
