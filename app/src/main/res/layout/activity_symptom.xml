@@ -104,15 +104,16 @@
         android:layout_height="5dp"/>
 
     <CheckBox
+        android:id="@+id/check_eye"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:background="#C69988"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Pain behind the eyes"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/check_eye"/>
+        android:background="#C69988"
+        android:padding="10dp"
+        android:text="Pain behind the eyes"
+        android:textColor="#E4DCDC"
+        android:textSize="18dp"
+        app:buttonTint="@color/design_default_color_error" />
 
     <TextView
         android:layout_width="match_parent"
