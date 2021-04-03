@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,9 +48,6 @@ public class LoginActivity extends AppCompatActivity {
                 String pw = password.getText().toString();
 
                 signIn(name, pw);
-
-//                BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext());
-//                backgroundTask.execute(name, pw);
             }
         });
 
@@ -60,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
                 startActivity(intent);
-                LoginActivity.this.finish();
             }
         });
 
@@ -69,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                LoginActivity.this.finish();
             }
         });
     }
@@ -83,9 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                            LoginActivity.this.finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Password Is Incorrect", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Email or Password Is Incorrect", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

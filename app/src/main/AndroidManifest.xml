@@ -22,9 +22,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/mozzic_launcher"
+        android:icon="@mipmap/logo_launcher"
         android:label="NozzieMozzie"
-        android:roundIcon="@mipmap/mozzic_launcher"
+        android:roundIcon="@mipmap/logo_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CZ2006"
         android:usesCleartextTraffic="true">
