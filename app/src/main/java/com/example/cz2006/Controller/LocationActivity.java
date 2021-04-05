@@ -194,6 +194,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
+
+        //Marker necessary? - SB
         LatLng Singapore = new LatLng(1.3521, 103.8198);
         //mMap.addMarker(new MarkerOptions().position(Singapore).title("Marker in Singapore"));
 
