@@ -7,95 +7,6 @@
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.927"
-        app:navGraph="@navigation/mobile_navigation" />
-
-    <Button
-        android:id="@+id/Symptom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchSymptom"
-        android:text="@string/symptoms_checker"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/nav_host_fragment"
-        app:layout_constraintHorizontal_bias="0.475"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
-
-    <Button
-        android:id="@+id/Report"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchReport"
-        android:text="@string/report"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.003"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.66" />
-
-    <Button
-        android:id="@+id/MozzieWipeOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchMozzie"
-        android:text="@string/mozziewipeout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
-
-    <Button
-        android:id="@+id/Setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchSetting"
-        android:text="@string/settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/nav_host_fragment"
-        app:layout_constraintHorizontal_bias="0.996"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
-
-    <Button
-        android:id="@+id/Location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchLocation"
-        android:text="@string/location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664" />
-
     <TextView
         android:id="@+id/txtMessage"
         android:layout_width="269dp"
@@ -104,11 +15,164 @@
         android:fontFamily="@font/arbutus_slab"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/Symptom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.598"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511" />
+        app:layout_constraintVertical_bias="0.04" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="340dp"
+        android:layout_height="300dp"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/GridLayout1"
+        android:orientation="horizontal"
+    />
+
+    <View
+        style="@style/Divider"
+        android:layout_width="300dp"
+        android:color="#FFE0A9"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <GridLayout
+        android:id="@+id/GridLayout1"
+        android:layout_width="340dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="100dp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
+        tools:context=".GridXMLActivity">
+
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:onClick="launchLocation">
+
+            <ImageButton
+                android:id="@+id/Location"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:onClick="launchLocation"
+                android:src="@drawable/locationon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/location"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat"
+                android:onClick="launchLocation"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:onClick="launchReport">
+
+            <ImageButton
+                android:id="@+id/Report"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:src="@drawable/reportproblem"
+                android:onClick="launchReport"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/report"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat"
+                android:onClick="launchReport"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:onClick="launchMozzie">
+
+            <ImageButton
+                android:id="@+id/Symptom"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:onClick="launchMozzie"
+                android:src="@drawable/mozzie2"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/mozziewipeout"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:onClick="launchSymptom">
+
+            <ImageButton
+                android:id="@+id/MozzieWipeOut"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:src="@drawable/symptom"
+                android:onClick="launchSymptom"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:onClick="launchSymptom"
+                android:text="@string/symptoms_checker"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
+
+        </FrameLayout>
+
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

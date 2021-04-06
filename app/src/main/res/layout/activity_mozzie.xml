@@ -18,8 +18,6 @@
         android:textColor="#E4DCDC"
         android:background="#CD675F"
         android:textAlignment="center"
-
-
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_horizontal" />
 
@@ -42,7 +40,9 @@
         android:text="1. Turn the Pail"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/mozziePhoto" />
+        app:layout_constraintTop_toBottomOf="@id/mozziePhoto"
+        app:buttonTint="@color/design_default_color_error" />
+    />
 
     <CheckBox
         android:id="@+id/checkBox2"
@@ -53,7 +53,9 @@
 
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/checkBox1" />
+        app:layout_constraintTop_toBottomOf="@id/checkBox1"
+        app:buttonTint="@color/design_default_color_error" />
+    />
 
 
     <CheckBox
@@ -65,7 +67,9 @@
 
         android:text="3. Flip the flowerpot plate"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:buttonTint="@color/design_default_color_error" />
+    />
 
     <CheckBox
         android:id="@+id/checkBox4"
@@ -76,7 +80,9 @@
 
         android:text="4. Loosen the hardened soil"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:buttonTint="@color/design_default_color_error" />
+    />
 
     <CheckBox
         android:id="@+id/checkBox5"
@@ -87,7 +93,9 @@
 
         android:text="5. Clear the roof gutter"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:buttonTint="@color/design_default_color_error" />
+    />
 
     <TextView
         android:id="@+id/completionText"
