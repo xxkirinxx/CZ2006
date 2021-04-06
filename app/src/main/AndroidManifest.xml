@@ -6,14 +6,12 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
@@ -30,30 +28,41 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Controller.LoginActivity"
-            android:launchMode="singleTop"
-            android:label="@string/app_name">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.ForgetPasswordActivity" />
-        <activity android:name=".Controller.RegisterActivity" />
         <activity
-            android:name=".Controller.MainActivity" >
-        </activity>
+            android:name=".Controller.ForgetPasswordActivity"
+            android:label=" "
+            android:parentActivityName=".Controller.LoginActivity" />
+        <activity
+            android:name=".Controller.RegisterActivity"
+            android:label=" "
+            android:parentActivityName=".Controller.LoginActivity" />
+        <activity
+            android:name=".Controller.MainActivity"
+            android:label="HOME"
+            android:parentActivityName=".Controller.LoginActivity" />
+        <activity
+            android:name=".Controller.ProfileActivity"
+            android:label="PROFILE"
+            android:parentActivityName=".Controller.ProfileActivity" />
         <activity
             android:name=".Controller.MozzieActivity"
-            android:label="MozzieWipeOut Checklist"
+            android:label="DO YOUR PART"
             android:parentActivityName=".Controller.MainActivity" />
         <activity
             android:name=".Controller.SymptomActivity"
-            android:label="Symptom Checklist"
+            android:label="SYMPTOM CHECK"
             android:parentActivityName=".Controller.MainActivity" />
         <activity
             android:name=".Controller.ClusterPopActivity"
-            android:theme="@style/AppTheme.PopMe"
-            android:parentActivityName=".Controller.LocationActivity" />
+            android:parentActivityName=".Controller.LocationActivity"
+            android:theme="@style/AppTheme.PopMe" />
         <!--
          The API key for Google Maps-based APIs is defined as a string resource.
          (See the file "res/values/google_maps_api.xml").
@@ -81,12 +90,8 @@
             android:label="@string/title_activity_location"
             android:parentActivityName=".Controller.MainActivity" />
         <activity
-            android:name=".Controller.SettingsActivity"
-            android:label="Settings"
-            android:parentActivityName=".Controller.MainActivity" />
-        <activity
             android:name=".Controller.ReportActivity"
-            android:label="Report"
+            android:label="REPORT"
             android:parentActivityName=".Controller.MainActivity" />
     </application>
 
