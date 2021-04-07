@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize">
 
+<<<<<<< Updated upstream
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"
@@ -53,9 +54,19 @@
         android:onClick="launchReport"
         android:text="@string/report"
         app:layout_constraintBottom_toBottomOf="parent"
+=======
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="270dp"
+        android:layout_height="250dp"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@id/GridLayout1"
+>>>>>>> Stashed changes
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.003"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< Updated upstream
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.66" />
 
@@ -66,6 +77,16 @@
         android:onClick="launchMozzie"
         android:text="@string/mozziewipeout"
         app:layout_constraintBottom_toBottomOf="parent"
+=======
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="340dp"
+        android:layout_height="300dp"
+        android:background="@drawable/rounded_corner"
+        android:layout_marginTop="20dp"
+>>>>>>> Stashed changes
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +115,236 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< Updated upstream
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.664" />
+=======
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
+        tools:context=".GridXMLActivity">
+
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:onClick="launchLocation">
+
+            <ImageButton
+                android:id="@+id/Location"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:onClick="launchLocation"
+                android:src="@drawable/locationon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/location"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat"
+                android:onClick="launchLocation"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:onClick="launchReport">
+
+            <ImageButton
+                android:id="@+id/Report"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:src="@drawable/reportproblem"
+                android:onClick="launchReport"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/report"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat"
+                android:onClick="launchReport"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:onClick="launchMozzie">
+
+            <ImageButton
+                android:id="@+id/Symptom"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:onClick="launchMozzie"
+                android:src="@drawable/mozzie2"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:text="@string/mozziewipeout"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="150dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:onClick="launchSymptom">
+
+            <ImageButton
+                android:id="@+id/MozzieWipeOut"
+                android:layout_width="wrap_content"
+                android:layout_height="118dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:src="@drawable/symptom"
+                android:onClick="launchSymptom"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:layout_gravity="bottom"
+                android:onClick="launchSymptom"
+                android:text="@string/symptoms_checker"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
+
+        </FrameLayout>
+
+    </GridLayout>
+
+        <GridLayout
+            android:id="@+id/GridLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="1"
+            android:background="@color/pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:context=".GridXMLActivity">
+
+
+            <FrameLayout
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:onClick="launchLocation">
+
+                <ImageButton
+                    android:id="@+id/home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:src="@drawable/ic_home_black_24dp"
+                    android:tint="@color/dark_red" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom"
+                    android:clickable="false"
+                    android:text="HOME"
+                    android:textAlignment="center"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:onClick="launchLocation">
+
+                <ImageButton
+                    android:id="@+id/notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:onClick="launchNotification"
+                    android:src="@drawable/ic_notifications_black_24dp"
+                    android:tint="@color/dark_red" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom"
+                    android:clickable="false"
+                    android:text="NOTIFICATION"
+                    android:textAlignment="center"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"
+                    android:onClick="launchNotification"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:onClick="launchLocation">
+
+                <ImageButton
+                    android:id="@+id/profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:onClick="launchProfile"
+                    android:src="@drawable/ic_profile_black_24dp"
+                    android:tint="@color/dark_red" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom"
+                    android:clickable="false"
+                    android:text="PROFILE"
+                    android:textAlignment="center"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat"
+                    android:onClick="launchProfile"/>
+            </FrameLayout>
+    </GridLayout>
+>>>>>>> Stashed changes
 
 </androidx.constraintlayout.widget.ConstraintLayout>
