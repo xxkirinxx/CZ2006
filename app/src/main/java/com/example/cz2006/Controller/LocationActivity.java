@@ -154,10 +154,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName().toString()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 50.0f));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15.0f));
             }
 
             @Override
