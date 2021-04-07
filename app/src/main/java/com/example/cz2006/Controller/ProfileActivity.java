@@ -16,8 +16,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView username;
     private TextView emailAddress;
-    private Button changepwButton;
-    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         username = findViewById(R.id.name);
         emailAddress = findViewById(R.id.email);
-        changepwButton = (Button) findViewById(R.id.changepasswordbutton);
-        logoutButton = (Button) findViewById(R.id.logoutbutton);
 
         getUserProfile();
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-//        changepwButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
     }
 
     public void getUserProfile() {
@@ -59,4 +38,27 @@ public class ProfileActivity extends AppCompatActivity {
             emailAddress.setText(email);
         }
     }
+
+    public void launchLogout(View v) {
+        Intent i = new Intent(this, com.example.cz2006.Controller.LoginActivity.class);
+        startActivity(i);
+        this.finish();
+    }
+
+    public void launchChangePW(View v) {
+//        Intent i = new Intent(this, com.example.cz2006.Controller.ChangePasswordActivity.class);
+//        startActivity(i);
+    }
+
+    public void launchHome(View v) {
+        Intent i = new Intent(this, com.example.cz2006.Controller.MainActivity.class);
+        startActivity(i);
+        this.finish();
+    }
+
+    public void launchNotification(View v) {
+//        Intent i = new Intent(this, com.example.cz2006.Controller.NotificationActivity.class);
+//        startActivity(i);
+    }
+
 }

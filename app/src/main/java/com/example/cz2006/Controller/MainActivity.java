@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void launchProfile(View v) {
         Intent i = new Intent(this, com.example.cz2006.Controller.ProfileActivity.class);
         startActivity(i);
-
+        this.finish();
     }
 
     private void neaAPI() {
