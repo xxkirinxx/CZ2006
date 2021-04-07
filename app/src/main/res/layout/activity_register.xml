@@ -11,12 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -25,10 +23,30 @@
         android:gravity="center"
         android:text="Register New Account"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/EmailRegisterLayout"
+        app:layout_constraintBottom_toTopOf="@+id/NameRegisterLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mozzieLogo" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/NameRegisterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="Your Name"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/EmailRegisterLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F6C6C6"
+            android:lines="1"
+            android:maxLines="1"
+            android:textColor="#850000" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/EmailRegisterLayout"
@@ -37,7 +55,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:hint="Email Address"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/NameRegisterLayout"
         app:layout_constraintBottom_toTopOf="@+id/PasswordRegisterLayout">
 
         <com.google.android.material.textfield.TextInputEditText

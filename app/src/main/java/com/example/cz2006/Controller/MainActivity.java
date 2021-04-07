@@ -85,10 +85,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void launchSetting(View v) {
-        Intent i = new Intent(this, com.example.cz2006.Controller.SettingsActivity.class);
+    public void launchProfile(View v) {
+        Intent i = new Intent(this, com.example.cz2006.Controller.ProfileActivity.class);
         startActivity(i);
+        this.finish();
+    }
 
+    public void launchNotification(View v) {
+        Intent i = new Intent(this, com.example.cz2006.Controller.NotificationActivity.class);
+        startActivity(i);
+        this.finish();
     }
 
     private void neaAPI() {
