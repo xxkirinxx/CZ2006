@@ -47,7 +47,7 @@
         android:columnCount="2"
         android:orientation="horizontal"
         android:rowCount="2"
-        app:layout_constraintBottom_toTopOf="@id/GridLayout2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
