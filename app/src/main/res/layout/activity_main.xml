@@ -193,8 +193,7 @@
                 android:layout_width="140dp"
                 android:layout_height="50dp"
                 android:layout_row="0"
-                android:layout_column="0"
-                android:onClick="launchLocation">
+                android:layout_column="0">
 
                 <ImageButton
                     android:id="@+id/home"
@@ -222,7 +221,7 @@
                 android:layout_height="50dp"
                 android:layout_row="0"
                 android:layout_column="1"
-                android:onClick="launchLocation">
+                android:onClick="launchNotification">
 
                 <ImageButton
                     android:id="@+id/notification"
@@ -243,8 +242,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/red"
                     android:textStyle="bold"
-                    tools:ignore="RtlCompat"
-                    android:onClick="launchNotification"/>
+                    tools:ignore="RtlCompat"/>
             </FrameLayout>
 
             <FrameLayout
@@ -252,7 +250,7 @@
                 android:layout_height="50dp"
                 android:layout_row="0"
                 android:layout_column="2"
-                android:onClick="launchLocation">
+                android:onClick="launchProfile">
 
                 <ImageButton
                     android:id="@+id/profile"
@@ -273,8 +271,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/red"
                     android:textStyle="bold"
-                    tools:ignore="RtlCompat"
-                    android:onClick="launchProfile"/>
+                    tools:ignore="RtlCompat"/>
             </FrameLayout>
     </GridLayout>
 
