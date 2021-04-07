@@ -1,10 +1,9 @@
 package com.example.cz2006.Controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,18 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cz2006.R;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,10 +25,13 @@ public class RegisterActivity extends AppCompatActivity {
     private Button registerButton;
     private Button backButton;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        mAuth = FirebaseAuth.getInstance();
         email = (EditText) findViewById(R.id.emailRegister);
         password = (EditText) findViewById(R.id.passwordRegister);
         confirmpassword = (EditText) findViewById(R.id.confirmPasswordRegister);
@@ -49,10 +44,13 @@ public class RegisterActivity extends AppCompatActivity {
                 String name = email.getText().toString();
                 String pw = password.getText().toString();
                 String cpw = confirmpassword.getText().toString();
-                Context context = getApplicationContext();
 
-                RegisterActivity.BackgroundTask backgroundTask = new RegisterActivity.BackgroundTask(context);
-                backgroundTask.execute(name, pw, cpw);
+                if (pw.equals(cpw) == false) {
+                    Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    createAccount(name, pw);
+                }
             }
         });
 
@@ -66,84 +64,18 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-
-    private class BackgroundTask extends AsyncTask<String, String, String> {
-        Context context;
-
-        BackgroundTask(Context ctx) {
-            this.context = ctx;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String username = strings[0];
-            String password = strings[1];
-            String cpassword = strings[2];
-            String registerUrl = "http://10.0.2.2/AndriodLogin/signup.php";
-
-            try {
-                URL url = new URL(registerUrl);
-                try {
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-                    BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-                    String user_account = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") +
-                            "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") +
-                            "&" + URLEncoder.encode("cpassword", "UTF-8") + "=" + URLEncoder.encode(cpassword, "UTF-8");
-                    bufferedWriter.write(user_account);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "ISO-8859-1");
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String result = "";
-                    String line = "";
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line);
+    private void createAccount(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(RegisterActivity.this, "Registration Failed. Please try again later.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    result = stringBuilder.toString();
-                    bufferedReader.close();
-                    inputStream.close();
-                    outputStream.close();
-                    httpURLConnection.disconnect();
-                    return result;
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "IOexception";
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return "URLexception";
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result.equals("1")) {
-                Toast.makeText(context, "Email already in use", Toast.LENGTH_LONG).show();
-            } else if (result.equals("2")) {
-                Toast.makeText(context, "Password and Confirm Password are different!", Toast.LENGTH_LONG).show();
-            } else if (result.equals("3")) {
-                Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                RegisterActivity.this.finish();
-            } else {
-                Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            }
-        }
-
+                });
     }
 }

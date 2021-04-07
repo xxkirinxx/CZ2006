@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "921183154133",
-    "project_id": "cz2006-project-306813",
-    "storage_bucket": "cz2006-project-306813.appspot.com"
+    "project_number": "371881976079",
+    "project_id": "nozziemozzie-c9f5a",
+    "storage_bucket": "nozziemozzie-c9f5a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:921183154133:android:ed7ec7432d44669d18175c",
+        "mobilesdk_app_id": "1:371881976079:android:07ae3fb534dfd0d7b51e7a",
         "android_client_info": {
           "package_name": "com.example.cz2006"
         }
       },
       "oauth_client": [
         {
-          "client_id": "921183154133-l66ksr415c0vqvhaucia4q8vhh23up4n.apps.googleusercontent.com",
+          "client_id": "371881976079-5psqhpa0p862rfvvgodvlqdq4gat471h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxAvSms7Gvhc7JBA6cr1_1y9w2whz3i5E"
+          "current_key": "AIzaSyCCIbpHHKFAGEpP3vZq4jVsjY2hWKDxbxY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "921183154133-l66ksr415c0vqvhaucia4q8vhh23up4n.apps.googleusercontent.com",
+              "client_id": "371881976079-5psqhpa0p862rfvvgodvlqdq4gat471h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">CZ2006</string>
+    <string name="app_name">NozzieMozzie</string>
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
-    <string name="report">Report</string>
+    <string name="report">REPORT</string>
     <string name="news">News</string>
-    <string name="location">Location</string>
-    <string name="mozziewipeout">MozzieWipeOut</string>
+    <string name="location">LOCATION</string>
+    <string name="mozziewipeout">MOZZIE <br /> WIPEOUT</string>
     <string name="settings">Settings</string>
-    <string name="symptoms_checker">Symptoms Checker</string>
+    <string name="symptoms_checker">SYMPTOMS <br /> CHECKER</string>
     <string name="profile">Profile</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="do_your_part">DO YOUR PART</string>

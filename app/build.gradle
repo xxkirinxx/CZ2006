@@ -13,6 +13,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,15 +42,26 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
-    implementation files('C:\\Users\\Koo Jian Yang\\Documents\\GitHub\\CZ2006\\app\\mail.jar')
-    implementation files('C:\\Users\\Koo Jian Yang\\Documents\\GitHub\\CZ2006\\app\\activation.jar')
-    implementation files('C:\\Users\\Koo Jian Yang\\Documents\\GitHub\\CZ2006\\app\\additionnal.jar')
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    // https://mvnrepository.com/artifact/javax.mail/javax.mail-api
+    implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Call API
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.code.gson:gson:2.4'
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

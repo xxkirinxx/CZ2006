@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,6 +20,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.cz2006.Entity.LocationData;
+import com.example.cz2006.Entity.LocationLatLng;
 import com.example.cz2006.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -29,21 +38,32 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.cz2006.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.cz2006.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
-public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
+
+public class LocationActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
+
+    public ArrayList <LocationData> neaResult = new ArrayList();
+    public Marker locMarker;
 
     private static final String TAG = "MainActivity";
 
@@ -90,16 +110,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(LocationActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
-            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You can't make map requests", LENGTH_SHORT).show();
         }
         return false;
     }
 
     private boolean checkMapServices() {
         if (isServicesOK()) {
-            if (isMapsEnabled()) {
-                return true;
-            }
+            return isMapsEnabled();
         }
         return false;
     }
@@ -107,12 +125,17 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //AndroidNetworking.initialize(getApplicationContext());
+        //getVolleyResponse();
+
         setContentView(R.layout.activity_location);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        neaAPI();
     }
 
     private void getLastKnownLocation() {
@@ -171,15 +194,18 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
+
+        //Marker necessary? - SB
         LatLng Singapore = new LatLng(1.3521, 103.8198);
-        mMap.addMarker(new MarkerOptions().position(Singapore).title("Marker in Singapore"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Singapore));
+        //mMap.addMarker(new MarkerOptions().position(Singapore).title("Marker in Singapore"));
 
         getLocationPermission();
         int a = ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
         Log.d("CZ2006", String.valueOf(a));
         getLastKnownLocation();
         mMap.setMyLocationEnabled(true);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Singapore, 10));
     }
 
     private void getLocationPermission() {
@@ -197,4 +223,133 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
+    // Calling Data Gov Dengue Cluster's API
+    private void neaAPI() {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        String URL = "https://www.nea.gov.sg/api/OneMap/GetMapData/DENGUE_CLUSTER";
+
+        StringRequest objectRequest = new StringRequest(
+                Request.Method.GET,
+                URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Rest Response", response.toString());
+                response = response.replace(",{","^{");
+                String[] res = response.split("\\^");
+
+                //Exclude Line 0
+                for(int i = 1;i < res.length;i++){
+                    try {
+                        res[i] = res[i].replace("\\", "");
+                        JSONObject obj = new JSONObject(res[i]);
+                        LocationData location = new LocationData();
+                        location.setDesc(obj.getString("DESCRIPTION"));
+                        location.setCaseSize(obj.getString("CASE_SIZE"));
+                        location.setLatLng(obj.getString("LatLng"));
+                        neaResult.add(location);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                addDengueCluster();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error Response", error.toString());
+            }
+        }
+        );
+
+        requestQueue.add(objectRequest);
+    }
+
+    public void addDengueCluster(){
+
+        if(neaResult.size() > 0){
+            for(int i = 0; i < neaResult.size();i++){
+
+                ArrayList<LocationLatLng> latLngs = new ArrayList<LocationLatLng>();
+
+                LocationData ld = neaResult.get(i);
+                String latLng = ld.getLatLng();
+                String[] latLngCut = latLng.split("\\|");
+                for(int j = 0; j < latLngCut.length;j++){
+                    String[] res = latLngCut[j].split(",");
+                    LocationLatLng llg = new LocationLatLng();
+                    llg.setLocLat(Double.parseDouble(res[0]));
+                    llg.setLocLng(Double.parseDouble(res[1]));
+                    latLngs.add(llg);
+                }
+                if(latLngs.size()>0){
+                    PolygonOptions poly = new PolygonOptions();
+
+                    if(Double.parseDouble(ld.getCaseSize())>= 10){
+                        poly.fillColor(Color.RED);
+                    }else if(Double.parseDouble(ld.getCaseSize())<10 && Double.parseDouble(ld.getCaseSize())>0){
+                        poly.fillColor(Color.YELLOW);
+                    }else if(Double.parseDouble(ld.getCaseSize())==0){
+                        poly.fillColor(Color.GREEN);
+                    }
+
+                    // Initial point
+                    //poly.add(new LatLng(9.6632139, 80.0133258));
+
+                    // ... then the rest.
+                    for(int k = 0; k < latLngs.size(); k++)
+                    {
+                        LocationLatLng ll = latLngs.get(k);
+                        poly.add(new LatLng(ll.getLocLat(), ll.getLocLng()));
+                    }
+                    // Done! Add to map.
+                    poly.clickable(true);
+                    poly.zIndex(i);
+                    mMap.addPolygon(poly);
+                    mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                        @Override
+                        public void onPolygonClick(Polygon polygon) {
+                            //Toast.makeText(LocationActivity.this,"Yeah",LENGTH_SHORT).show();
+                            int cs = (int)polygon.getZIndex();
+                            Intent i = new Intent(LocationActivity.this,ClusterPopActivity.class);
+                            i.putExtra("DengueClusterDesc",neaResult.get(cs).getDesc());
+                            i.putExtra("DengueClusterCS",neaResult.get(cs).getCaseSize());
+                            startActivity(i);
+                        }
+                    });
+
+                }else{
+                    // Error handling
+                }
+            }
+
+            /*if(latLngs.size()>0){
+                PolygonOptions poly = new PolygonOptions();
+
+                if
+                poly.fillColor(Color.clusterColor);
+
+                // Initial point
+                //poly.add(new LatLng(9.6632139, 80.0133258);
+
+                // ... then the rest.
+                for(int i = 0; i < length; i++)
+                {
+                    poly.add(new LatLng(array[i].a, array[i].b));
+                }
+
+                // Done! Add to map.
+                mMap.addPolygon(poly);
+            }else{
+                // Error handling
+            }*/
+
+
+
+
+        }
+
+    }
+
 }
