@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     txtMessage.setBackgroundColor(Color.GREEN);
                 }
                 txtMessage.setText(Html.fromHtml("<big><u><span style:'text-align:center;'>"+message+ "</span></u></big><big>" + nearCase + "</big>" + " cases nearest to your current location." + "<br/> <br/> <b>Nearest Location:</b> " + desc));
-                txtMessage.setPadding(30,30,30,10);
+                txtMessage.setPadding(30,30,30,30);
             }
         }, new Response.ErrorListener() {
             @Override
