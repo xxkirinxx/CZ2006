@@ -3,7 +3,10 @@ package com.example.cz2006.Controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -47,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString();
-                String pw = password.getText().toString();
+                String name = username.getText().toString().trim();
+                String pw = password.getText().toString().trim();
 
                 signIn(name, pw);
             }

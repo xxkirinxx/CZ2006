@@ -28,4 +28,6 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_location">Map</string>
+    <string name="channel_name">NozzieMozzieChannel</string>
+    <string name="channel_description">NozzieMozzieChannelDescription</string>
 </resources>

@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
         this.finish();
     }
 
+    public void launchNotification(View v) {
+        Intent i = new Intent(this, com.example.cz2006.Controller.NotificationActivity.class);
+        startActivity(i);
+        this.finish();
+    }
+
     private void neaAPI() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 

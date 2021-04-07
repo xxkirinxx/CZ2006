@@ -72,8 +72,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void launchNotification(View v) {
-//        Intent i = new Intent(this, com.example.cz2006.Controller.NotificationActivity.class);
-//        startActivity(i);
+        Intent i = new Intent(this, com.example.cz2006.Controller.NotificationActivity.class);
+        startActivity(i);
+        this.finish();
     }
 
 }
