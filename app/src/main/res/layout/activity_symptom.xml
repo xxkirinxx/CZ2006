@@ -18,8 +18,8 @@
         <CheckBox
             android:id="@+id/check_fever"
             android:layout_width="370dp"
-            android:background="#736661"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:padding="10dp"
             android:layout_height="wrap_content"
             android:textSize="18dp"
@@ -33,9 +33,9 @@
             android:layout_height="5dp" />
 
         <CheckBox
-            android:background="#C69988"
+            android:background="#E6B9A8"
             android:layout_width="370dp"
-            android:textColor="#E4DCDC"
+            android:textColor="#050404"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="18dp"
@@ -52,8 +52,8 @@
         <CheckBox
             android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#736661"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:padding="10dp"
             android:textSize="18dp"
             android:text="Nausea and vomitting"
@@ -69,8 +69,8 @@
         <CheckBox
             android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#C69988"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:padding="10dp"
             android:textSize="18dp"
             android:text="Rashes on body"
@@ -86,8 +86,8 @@
         <CheckBox
             android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#736661"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:padding="10dp"
             android:textSize="18dp"
             android:text="Headache for more than 3 days"
@@ -105,10 +105,10 @@
             android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="#C69988"
+            android:background="#E6B9A8"
             android:padding="10dp"
             android:text="Pain behind the eyes"
-            android:textColor="#E4DCDC"
+            android:textColor="#050404"
             android:textSize="18dp"
             app:buttonTint="@color/design_default_color_error" />
 
@@ -120,8 +120,8 @@
             android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:text="Swollen glands"
-            android:background="#736661"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:textSize="18dp"
             android:padding="10dp"
             android:layout_gravity="center_horizontal"
@@ -135,8 +135,8 @@
         <CheckBox
             android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#C69988"
-            android:textColor="#E4DCDC"
+            android:background="#E6B9A8"
+            android:textColor="#050404"
             android:padding="10dp"
             android:textSize="18dp"
             android:text="Joint pain"
