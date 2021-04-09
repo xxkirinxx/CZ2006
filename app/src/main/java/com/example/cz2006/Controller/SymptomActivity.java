@@ -177,12 +177,20 @@ public class SymptomActivity extends AppCompatActivity {
                 builder.setMessage(stringBuilder.toString());
 
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Main Menu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertTextView.setVisibility(View.VISIBLE);
                     }
+                }); 
+
+                builder.setNegativeButton("Check Again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
                 });
+
                 builder.show();
 
                 mResultText.setText(stringBuilder.toString());
