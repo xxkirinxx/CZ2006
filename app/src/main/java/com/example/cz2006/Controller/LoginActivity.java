@@ -58,12 +58,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (name.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Email field is empty!", Toast.LENGTH_LONG).show();
                 }
-
                 else if (pw.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Password field is empty!", Toast.LENGTH_LONG).show();
                 }
-
-                else {signIn(name, pw); }
+                else {
+                    signIn(name, pw);
+                }
             }
         });
 

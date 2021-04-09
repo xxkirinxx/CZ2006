@@ -27,7 +27,6 @@ public class NotificationActivity extends AppCompatActivity {
 
     TextView notification1;
     TextView notification2;
-    Button getnotif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
