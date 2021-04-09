@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".Controller.NotificationActivity">
 
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="100dp"
+        android:layout_height="600dp"
+        android:background="@color/pink"
+        android:fontFamily="@font/arbutus_slab"
+        android:gravity="top"
+        android:text="DATE \n"
+        android:textColor="@color/dark_red"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@id/GridLayout"
+        app:layout_constraintEnd_toStartOf="@id/content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="250dp"
+        android:layout_height="600dp"
+        android:background="@color/pink"
+        android:fontFamily="@font/arbutus_slab"
+        android:gravity="top"
+        android:text="CONTENT \n"
+        android:textColor="@color/dark_red"
+        android:textSize="15sp"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@id/GridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="match_parent"
@@ -33,9 +62,9 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@null"
+                android:onClick="launchHome"
                 android:src="@drawable/ic_home_black_24dp"
-                android:tint="@color/dark_red"
-                android:onClick="launchHome"/>
+                android:tint="@color/grey" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,9 +73,9 @@
                 android:clickable="false"
                 android:text="HOME"
                 android:textAlignment="center"
-                android:textColor="@color/red"
+                android:textColor="@color/grey"
                 android:textStyle="bold"
-                tools:ignore="RtlCompat"/>
+                tools:ignore="RtlCompat" />
         </FrameLayout>
 
         <FrameLayout
@@ -71,9 +100,9 @@
                 android:clickable="false"
                 android:text="NOTIFICATION"
                 android:textAlignment="center"
-                android:textColor="@color/red"
+                android:textColor="@color/dark_red"
                 android:textStyle="bold"
-                tools:ignore="RtlCompat"/>
+                tools:ignore="RtlCompat" />
         </FrameLayout>
 
         <FrameLayout
@@ -89,9 +118,9 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@null"
+                android:onClick="launchProfile"
                 android:src="@drawable/ic_profile_black_24dp"
-                android:tint="@color/dark_red"
-                android:onClick="launchProfile"/>
+                android:tint="@color/grey" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -100,9 +129,9 @@
                 android:clickable="false"
                 android:text="PROFILE"
                 android:textAlignment="center"
-                android:textColor="@color/red"
+                android:textColor="@color/grey"
                 android:textStyle="bold"
-                tools:ignore="RtlCompat"/>
+                tools:ignore="RtlCompat" />
         </FrameLayout>
     </GridLayout>
 

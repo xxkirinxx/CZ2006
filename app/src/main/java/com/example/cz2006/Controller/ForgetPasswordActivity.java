@@ -41,7 +41,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 emailaddress = email.getText().toString();
-                pwReset(emailaddress);
+
+
+                if (emailaddress.isEmpty()){
+                    Toast.makeText(ForgetPasswordActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
+                }
+                else {
+                pwReset(emailaddress);}
 
 
             }
@@ -66,7 +72,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                             Toast.makeText(ForgetPasswordActivity.this, "Reset Email Sent", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Toast.makeText(ForgetPasswordActivity.this, "Email Failed to Send", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, "Email Not Registered", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
