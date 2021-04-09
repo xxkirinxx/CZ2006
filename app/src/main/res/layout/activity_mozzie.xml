@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:background="#EDD598"
+        android:background="#FFFFFF"
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
