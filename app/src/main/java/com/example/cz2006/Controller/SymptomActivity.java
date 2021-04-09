@@ -1,11 +1,13 @@
 package com.example.cz2006.Controller;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cz2006.R;
@@ -16,6 +18,7 @@ public class SymptomActivity extends AppCompatActivity {
     private CheckBox mFeverCheck, mSoreCheck, mNauseaCheck, mRashesCheck, mHeadacheCheck, mEyeCheck, mSwollenCheck, mJointCheck;
     private Button mResultButton;
     private TextView mResultText;
+    private TextView alertTextView;
     private ArrayList<String> mResult;
     private ArrayList<String> mPoints;
 
@@ -155,6 +158,7 @@ public class SymptomActivity extends AppCompatActivity {
         mResultButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Your Symptoms: \n");
                 for (String s : mResult)
@@ -167,9 +171,32 @@ public class SymptomActivity extends AppCompatActivity {
                 else
                     stringBuilder.append("\n").append("Do continue to monitor your health.");
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(SymptomActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Nozzie Mozzie");
+                builder.setMessage(stringBuilder.toString());
+
+
+                builder.setPositiveButton("Main Menu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertTextView.setVisibility(View.VISIBLE);
+                    }
+                }); 
+
+                builder.setNegativeButton("Check Again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
                 mResultText.setText(stringBuilder.toString());
                 mResultText.setEnabled(false);
             }
+
         });
     }
 }
