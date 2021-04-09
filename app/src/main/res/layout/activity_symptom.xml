@@ -128,9 +128,9 @@
             android:id="@+id/check_swollen"
             app:buttonTint="@color/design_default_color_error" />
         />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="5dp"/>-->
 
         <CheckBox
             android:layout_width="370dp"
