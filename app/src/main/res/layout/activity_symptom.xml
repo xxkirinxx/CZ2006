@@ -1,164 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Controller.SymptomActivity"
-    android:orientation="vertical"
-    android:paddingTop="20dp">
-
-    <CheckBox
-        android:id="@+id/check_fever"
-        android:layout_width="370dp"
-        android:background="#736661"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:layout_gravity="center_horizontal"
-        android:text="High fever"
-        app:buttonTint="@color/design_default_color_error" />
-    />
-
-    <TextView
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        android:layout_height="match_parent"
+        tools:context=".Controller.SymptomActivity"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
 
-    <CheckBox
-        android:background="#C69988"
-        android:layout_width="370dp"
-        android:textColor="#E4DCDC"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Sore bones"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_sore"
-        app:buttonTint="@color/design_default_color_error" />
-    />
+        <CheckBox
+            android:id="@+id/check_fever"
+            android:layout_width="370dp"
+            android:background="#736661"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"
+            android:text="High fever"
+            app:buttonTint="@color/design_default_color_error" />
+        />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
-    <CheckBox
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:background="#736661"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Nausea and vomitting"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_nausea"
-        app:buttonTint="@color/design_default_color_error" />
-    />
+        <CheckBox
+            android:background="#C69988"
+            android:layout_width="370dp"
+            android:textColor="#E4DCDC"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="Sore bones"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_sore"
+            app:buttonTint="@color/design_default_color_error" />
+        />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
-    <CheckBox
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:background="#C69988"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Rashes on body"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_rashes"
-        app:buttonTint="@color/design_default_color_error" />
-    />
+        <CheckBox
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:background="#736661"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="Nausea and vomitting"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_nausea"
+            app:buttonTint="@color/design_default_color_error" />
+        />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
-    <CheckBox
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:background="#736661"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Headache for more than 3 days"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_headache"
-        app:buttonTint="@color/design_default_color_error" />
-    />
+        <CheckBox
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:background="#C69988"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="Rashes on body"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_rashes"
+            app:buttonTint="@color/design_default_color_error" />
+        />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
-    <CheckBox
-        android:id="@+id/check_eye"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#C69988"
-        android:padding="10dp"
-        android:text="Pain behind the eyes"
-        android:textColor="#E4DCDC"
-        android:textSize="18dp"
-        app:buttonTint="@color/design_default_color_error" />
+        <CheckBox
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:background="#736661"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="Headache for more than 3 days"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_headache"
+            app:buttonTint="@color/design_default_color_error" />
+        />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
 
-    <CheckBox
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:text="Swollen glands"
-        android:background="#736661"
-        android:textColor="#E4DCDC"
-        android:textSize="18dp"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_swollen"
-        app:buttonTint="@color/design_default_color_error" />
-    />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        <CheckBox
+            android:id="@+id/check_eye"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#C69988"
+            android:padding="10dp"
+            android:text="Pain behind the eyes"
+            android:textColor="#E4DCDC"
+            android:textSize="18dp"
+            app:buttonTint="@color/design_default_color_error" />
 
-    <CheckBox
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:background="#C69988"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:textSize="18dp"
-        android:text="Joint pain"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/check_joint"
-        app:buttonTint="@color/design_default_color_error" />
-    />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
 
-    <Button
-        android:id="@+id/write_result"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#E4DCDC"
-        android:padding="10dp"
-        android:backgroundTint="#C34646"
-        android:layout_gravity="center_horizontal"
-        android:text="CHECK" />
+        <CheckBox
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:text="Swollen glands"
+            android:background="#736661"
+            android:textColor="#E4DCDC"
+            android:textSize="18dp"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_swollen"
+            app:buttonTint="@color/design_default_color_error" />
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="#FFE0A9"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="20dp" />
+        <CheckBox
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:background="#C69988"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="Joint pain"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/check_joint"
+            app:buttonTint="@color/design_default_color_error" />
+        />
+
+        <Button
+            android:id="@+id/write_result"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#E4DCDC"
+            android:padding="10dp"
+            android:backgroundTint="#C34646"
+            android:layout_gravity="center_horizontal"
+            android:text="CHECK" />
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#FFFFFF"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/AlertTextView"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
