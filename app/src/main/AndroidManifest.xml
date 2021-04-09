@@ -41,7 +41,8 @@
         </activity>
         <activity
             android:name=".Controller.NotificationActivity"
-            android:label="Notifications" />
+            android:label="NOTIFICATIONS"
+            android:parentActivityName=".Controller.MainActivity"/>
         <activity
             android:name=".Controller.ForgetPasswordActivity"
             android:label=" "
@@ -52,12 +53,11 @@
             android:parentActivityName=".Controller.LoginActivity" />
         <activity
             android:name=".Controller.MainActivity"
-            android:label="HOME"
-            android:parentActivityName=".Controller.LoginActivity" />
+            android:label="HOME" />
         <activity
             android:name=".Controller.ProfileActivity"
             android:label="PROFILE"
-            android:parentActivityName=".Controller.ProfileActivity" />
+            android:parentActivityName=".Controller.MainActivity" />
         <activity
             android:name=".Controller.MozzieActivity"
             android:label="DO YOUR PART"
