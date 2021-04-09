@@ -1,5 +1,6 @@
 package com.example.cz2006.Controller;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cz2006.R;
@@ -18,6 +20,7 @@ public class MozzieActivity extends AppCompatActivity {
     private CheckBox B1Checked, B2Checked,B3Checked,B4Checked,B5Checked;
     private Button resultButton;
     private ArrayList<String> points;
+    private TextView alertTextView;
     private TextView completionText;
 
 
@@ -118,6 +121,28 @@ public class MozzieActivity extends AppCompatActivity {
                     stringBuilder.append("\n").append("You have completed the mozzie wipeout!");
                 else
                     stringBuilder.append("\n").append("You have not completed the mozzie wipeout :(");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MozzieActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Nozzie Mozzie");
+                builder.setMessage(stringBuilder.toString());
+
+
+                builder.setPositiveButton("Main Menu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertTextView.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                builder.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
 
                 completionText.setText(stringBuilder.toString());
                 completionText.setEnabled(false);
