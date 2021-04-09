@@ -41,7 +41,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 emailaddress = email.getText().toString();
-                pwReset(emailaddress);
+
+
+                if (emailaddress.isEmpty()){
+                    Toast.makeText(ForgetPasswordActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
+                }
+                else {
+                pwReset(emailaddress);}
 
 
             }
