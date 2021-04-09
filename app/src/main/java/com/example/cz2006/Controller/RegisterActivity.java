@@ -49,8 +49,17 @@ public class RegisterActivity extends AppCompatActivity {
                 String pw = password.getText().toString();
                 String cpw = confirmpassword.getText().toString();
 
-                if (!pw.equals(cpw)) {
-                    Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different!", Toast.LENGTH_SHORT).show();
+                if (mail.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
+                }
+                else if (pw.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Password field is empty", Toast.LENGTH_LONG).show();
+                }
+                else if (cpw.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "Enter your password again to confirm", Toast.LENGTH_LONG).show();
+                }
+                else if (pw.equals(cpw) == false) {
+                    Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different", Toast.LENGTH_SHORT).show();
                 }
                 else if (pw.length()<6) {
                     Toast.makeText(RegisterActivity.this, "Password has to be at least 6 characters long!", Toast.LENGTH_SHORT).show();
@@ -78,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateProfile(user);
-                        } else {
+                        } 
+                      else {
                             Toast.makeText(RegisterActivity.this, "Email May Already Be In Use", Toast.LENGTH_SHORT).show();
                         }
                     }
