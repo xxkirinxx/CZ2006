@@ -31,7 +31,7 @@ public class MozzieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mozzie);
 
         ImageView mozziePhoto = (ImageView) findViewById(R.id.mozziePhoto); //get id of mozzie image
-        mozziePhoto.setImageResource(R.drawable.mozzie);
+        mozziePhoto.setImageResource(R.drawable.fivesteps);
 
         B1Checked = findViewById(R.id.checkBox1);
         B2Checked = findViewById(R.id.checkBox2);
