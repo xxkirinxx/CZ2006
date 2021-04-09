@@ -128,14 +128,8 @@ public class MozzieActivity extends AppCompatActivity {
                 builder.setMessage(stringBuilder.toString());
 
 
-                builder.setPositiveButton("Main Menu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertTextView.setVisibility(View.VISIBLE);
-                    }
-                });
 
-                builder.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -148,50 +142,6 @@ public class MozzieActivity extends AppCompatActivity {
                 completionText.setEnabled(false);
             }
         });
-
-
-
-
-
-
-
-        /* checkBox1 = findViewById(R.id.checkBox1);
-        checkBox2 = findViewById(R.id.checkBox2);
-        checkBox3 = findViewById(R.id.checkBox3);
-        checkBox4 = findViewById(R.id.checkBox4);
-        checkBox5 = findViewById(R.id.checkBox5);
-
-        completionText = findViewById(R.id.completionText);
-        if (checkBox1.isChecked() == true && checkBox2.isChecked() == true
-                && checkBox3.isChecked() == true && checkBox4.isChecked() == true &&
-                checkBox5.isChecked() == true) {
-            x = 5;
-        }
-
-        if(checkBox1.isChecked() == true && checkBox2.isChecked() == true
-                && checkBox3.isChecked() == true && checkBox4.isChecked() == true &&
-                checkBox5.isChecked() == true) {
-            completionText.setVisibility(View.VISIBLE);
-        }
-        else {
-            completionText.setVisibility(View.INVISIBLE);
-        }
-
-        if (checkBox1.isChecked() == true) {
-            int cb1 = 1;
-        }
-        if (checkBox2.isChecked() == true) {
-            int cb2 = 1;
-        }
-        int allCompleted = cb1 + cb2;
-        if (allCompleted == 2){
-            completionText.setVisibility(View.VISIBLE);
-        }
-        else {
-            completionText.setVisibility(View.INVISIBLE);
-        }
-        */
-
 
 
 

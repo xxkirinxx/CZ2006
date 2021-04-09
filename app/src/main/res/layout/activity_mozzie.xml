@@ -5,21 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".Controller.MozzieActivity">
 
-<!--    <TextView-->
-<!--        android:id="@+id/toptext"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/do_your_part"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="30sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textColor="#E4DCDC"-->
-<!--        android:background="#CD675F"-->
-<!--        android:textAlignment="center"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:gravity="center_horizontal" />-->
 
 
     <ImageView
@@ -94,23 +82,26 @@
         android:text="5. Clear the roof gutter"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:buttonTint="@color/design_default_color_error" />
+        app:buttonTint="@color/design_default_color_error" /><![CDATA[
     />
 
+
+    ]]>
 
     <Button
         android:id="@+id/completionButton"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#C34646"
         android:padding="10dp"
         android:text="CHECK"
         android:textColor="#E4DCDC"
         android:textSize="20dp"
         app:layout_constraintTop_toBottomOf="@id/checkBox5"
-        tools:layout_editor_absoluteX="20dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="25dp" />
 
     <TextView
         android:id="@+id/completionText"
