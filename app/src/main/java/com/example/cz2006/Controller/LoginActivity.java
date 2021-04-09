@@ -3,7 +3,10 @@ package com.example.cz2006.Controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +18,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static FirebaseUser user;
     private FirebaseAuth mAuth;
 
     private EditText username;
@@ -26,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button forgetPWButton;
     private Button loginButton;
     private Button registerButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString();
-                String pw = password.getText().toString();
+                String name = username.getText().toString().trim();
+                String pw = password.getText().toString().trim();
 
                 signIn(name, pw);
             }
@@ -75,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
+                            user = mAuth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {

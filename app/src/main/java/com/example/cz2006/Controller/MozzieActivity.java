@@ -1,5 +1,6 @@
 package com.example.cz2006.Controller;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cz2006.R;
@@ -18,6 +20,7 @@ public class MozzieActivity extends AppCompatActivity {
     private CheckBox B1Checked, B2Checked,B3Checked,B4Checked,B5Checked;
     private Button resultButton;
     private ArrayList<String> points;
+    private TextView alertTextView;
     private TextView completionText;
 
 
@@ -119,54 +122,26 @@ public class MozzieActivity extends AppCompatActivity {
                 else
                     stringBuilder.append("\n").append("You have not completed the mozzie wipeout :(");
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(MozzieActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Nozzie Mozzie");
+                builder.setMessage(stringBuilder.toString());
+
+
+
+                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
                 completionText.setText(stringBuilder.toString());
                 completionText.setEnabled(false);
             }
         });
-
-
-
-
-
-
-
-        /* checkBox1 = findViewById(R.id.checkBox1);
-        checkBox2 = findViewById(R.id.checkBox2);
-        checkBox3 = findViewById(R.id.checkBox3);
-        checkBox4 = findViewById(R.id.checkBox4);
-        checkBox5 = findViewById(R.id.checkBox5);
-
-        completionText = findViewById(R.id.completionText);
-        if (checkBox1.isChecked() == true && checkBox2.isChecked() == true
-                && checkBox3.isChecked() == true && checkBox4.isChecked() == true &&
-                checkBox5.isChecked() == true) {
-            x = 5;
-        }
-
-        if(checkBox1.isChecked() == true && checkBox2.isChecked() == true
-                && checkBox3.isChecked() == true && checkBox4.isChecked() == true &&
-                checkBox5.isChecked() == true) {
-            completionText.setVisibility(View.VISIBLE);
-        }
-        else {
-            completionText.setVisibility(View.INVISIBLE);
-        }
-
-        if (checkBox1.isChecked() == true) {
-            int cb1 = 1;
-        }
-        if (checkBox2.isChecked() == true) {
-            int cb2 = 1;
-        }
-        int allCompleted = cb1 + cb2;
-        if (allCompleted == 2){
-            completionText.setVisibility(View.VISIBLE);
-        }
-        else {
-            completionText.setVisibility(View.INVISIBLE);
-        }
-        */
-
 
 
 
