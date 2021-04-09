@@ -45,12 +45,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = email.getText().toString();
+                String mail = email.getText().toString();
                 String pw = password.getText().toString();
                 String cpw = confirmpassword.getText().toString();
 
-
-                if (name.isEmpty()){
+                if (mail.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
                 }
                 else if (pw.isEmpty()){
@@ -59,12 +58,14 @@ public class RegisterActivity extends AppCompatActivity {
                 else if (cpw.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "Enter your password again to confirm", Toast.LENGTH_LONG).show();
                 }
-
                 else if (pw.equals(cpw) == false) {
                     Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different", Toast.LENGTH_SHORT).show();
                 }
+                else if (pw.length()<6) {
+                    Toast.makeText(RegisterActivity.this, "Password has to be at least 6 characters long!", Toast.LENGTH_SHORT).show();
+                }
                 else {
-                    createAccount(name, pw);
+                    createAccount(mail, pw);
                 }
             }
         });
@@ -86,10 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateProfile(user);
-                        }
-
-                        else {
-                            Toast.makeText(RegisterActivity.this, "Registration Failed. Please try again later.", Toast.LENGTH_SHORT).show();
+                        } 
+                      else {
+                            Toast.makeText(RegisterActivity.this, "Email May Already Be In Use", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -107,6 +107,10 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            RegisterActivity.this.finish();
                         }
                     }
                 });

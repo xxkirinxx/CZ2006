@@ -11,6 +11,12 @@ import android.provider.Settings;
 import androidx.core.app.NotificationCompat;
 
 import com.example.cz2006.R;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -23,7 +29,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         createNotification(context);
     }
 
-    void createNotification(Context mContext)
+    public void createNotification(Context mContext)
     {
 
         Intent intent = new Intent(mContext , LoginActivity.class);
@@ -47,7 +53,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
             notificationChannel.enableLights(true);
-//            notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
             assert mNotificationManager != null;
             mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
@@ -55,5 +60,22 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
         assert mNotificationManager != null;
         mNotificationManager.notify(0, mBuilder.build());
+
+        addNotificationToDatabase();
+    }
+
+    public void addNotificationToDatabase()
+    {
+        // Create a new notification
+        Map<String, String> notification = new HashMap<>();
+
+        String currentTime = Calendar.getInstance().getTime().toString().substring(0, 16);
+        notification.put("time", currentTime);
+        notification.put("title", title);
+        notification.put("content", content);
+
+        // Add a new document with a generated ID using user's email
+        String user = LoginActivity.user.getEmail();
+        FirebaseFirestore.getInstance().collection(user).add(notification);
     }
 }
