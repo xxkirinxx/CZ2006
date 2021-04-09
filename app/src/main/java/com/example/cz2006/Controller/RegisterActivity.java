@@ -19,6 +19,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText name;
@@ -45,11 +48,15 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String username = name.getText().toString();
                 String mail = email.getText().toString();
                 String pw = password.getText().toString();
                 String cpw = confirmpassword.getText().toString();
 
-                if (mail.isEmpty()){
+                if (username.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Name field is empty", Toast.LENGTH_LONG).show();
+                }
+                else if (mail.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
                 }
                 else if (pw.isEmpty()){
@@ -58,14 +65,14 @@ public class RegisterActivity extends AppCompatActivity {
                 else if (cpw.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "Enter your password again to confirm", Toast.LENGTH_LONG).show();
                 }
-                else if (pw.equals(cpw) == false) {
-                    Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different", Toast.LENGTH_SHORT).show();
+                else if (!pw.equals(cpw)) {
+                    Toast.makeText(RegisterActivity.this, "Password and Confirm Password inputs are different", Toast.LENGTH_LONG).show();
                 }
-                else if (pw.length()<6) {
-                    Toast.makeText(RegisterActivity.this, "Password has to be at least 6 characters long!", Toast.LENGTH_SHORT).show();
+                else if (!pwCheck(pw)) {
+                    Toast.makeText(RegisterActivity.this, "Password need to contain 12 characters, 1 uppercase, 1 lowercase, 1 numeric and 1 special character!", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    createAccount(mail, pw);
+                    createAccount(username, mail, pw);
                 }
             }
         });
@@ -80,13 +87,36 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void createAccount(String email, String password) {
+    public boolean pwCheck(String password)
+    {
+        if(password.length()>=12)
+        {
+            Pattern upper = Pattern.compile("[a-z]");
+            Pattern lower = Pattern.compile("[A-Z]");
+            Pattern numeric = Pattern.compile("[0-9]");
+            Pattern special = Pattern.compile ("[!@#$%^&]");
+
+            Matcher hasUpper = upper.matcher(password);
+            Matcher hasLower = lower.matcher(password);
+            Matcher hasNumeric = numeric.matcher(password);
+            Matcher hasSpecial = special.matcher(password);
+
+            if (hasUpper.find() && hasLower.find() && hasNumeric.find() && hasSpecial.find())
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    private void createAccount(String username, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateProfile(user);
+                            updateProfile(username, user);
                         } 
                       else {
                             Toast.makeText(RegisterActivity.this, "Email May Already Be In Use", Toast.LENGTH_SHORT).show();
@@ -95,10 +125,10 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateProfile(FirebaseUser user) {
+    public void updateProfile(String username, FirebaseUser user) {
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name.getText().toString())
+                .setDisplayName(username)
                 .build();
 
         user.updateProfile(profileUpdates)
