@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:padding="18dp"
-        android:src="@drawable/mozzie"
+        android:src="@drawable/fivesteps"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <CheckBox
