@@ -39,7 +39,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -70,7 +69,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private FusedLocationProviderClient mFusedLocationClient;
 
     public ArrayList <LocationData> neaResult = new ArrayList();
-    public Marker locMarker;
 
     private static final String TAG = "MainActivity";
 
@@ -132,6 +130,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        checkMapServices();
         super.onCreate(savedInstanceState);
         //AndroidNetworking.initialize(getApplicationContext());
         //getVolleyResponse();

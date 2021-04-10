@@ -55,7 +55,15 @@ public class LoginActivity extends AppCompatActivity {
                 String name = username.getText().toString().trim();
                 String pw = password.getText().toString().trim();
 
-                signIn(name, pw);
+                if (name.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Email field is empty", Toast.LENGTH_LONG).show();
+                }
+                else if (pw.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Password field is empty", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    signIn(name, pw);
+                }
             }
         });
 
@@ -86,7 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                             user = mAuth.getCurrentUser();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                        } else {
+                            LoginActivity.this.finish();
+                        } 
+                        else {
                             Toast.makeText(LoginActivity.this, "Email or Password Is Incorrect", Toast.LENGTH_LONG).show();
                         }
                     }
