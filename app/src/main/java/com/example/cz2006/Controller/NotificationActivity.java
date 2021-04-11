@@ -32,7 +32,7 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        myAlarm();
+        setNotificationAlarm();
 
         notification1 = (TextView) findViewById(R.id.time);
         notification2 = (TextView) findViewById(R.id.content);
@@ -41,7 +41,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-    public void myAlarm() {
+    public void setNotificationAlarm() {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 11);
