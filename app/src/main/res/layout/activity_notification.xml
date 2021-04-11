@@ -4,7 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     tools:context=".Controller.NotificationActivity">
+
+    <TextView
+        android:id="@+id/timetext"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@color/pink"
+        android:fontFamily="@font/arbutus_slab"
+        android:gravity="center"
+        android:text="DATE \n"
+        android:textColor="@color/dark_red"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@id/contenttext"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/contenttext"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@color/pink"
+        android:fontFamily="@font/arbutus_slab"
+        android:gravity="center"
+        android:text="CONTENT \n"
+        android:textColor="@color/dark_red"
+        android:textSize="15sp"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/time"
@@ -13,12 +41,10 @@
         android:background="@color/pink"
         android:fontFamily="@font/arbutus_slab"
         android:gravity="top"
-        android:text="DATE \n"
         android:textColor="@color/dark_red"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/GridLayout"
         app:layout_constraintEnd_toStartOf="@id/content"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/timetext" />
 
     <TextView
         android:id="@+id/content"
@@ -27,13 +53,11 @@
         android:background="@color/pink"
         android:fontFamily="@font/arbutus_slab"
         android:gravity="top"
-        android:text="CONTENT \n"
         android:textColor="@color/dark_red"
         android:textSize="15sp"
         android:layout_marginHorizontal="30dp"
-        app:layout_constraintBottom_toTopOf="@id/GridLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/contenttext" />
 
     <GridLayout
         android:id="@+id/GridLayout"
