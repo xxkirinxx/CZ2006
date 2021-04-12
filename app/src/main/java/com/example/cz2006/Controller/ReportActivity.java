@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -12,6 +13,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +37,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
@@ -58,6 +63,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
     private EditText editTextMulti;
     private Button btnSubmit;
     private TextView locationTextView;
+    private TextView textViewWordCount;
 
     private boolean tappedBtnGetLoc = false;
     private boolean uploadFailed = false;
@@ -72,17 +78,18 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationTextView = findViewById(R.id.locationTextView);
         Button BtnGetLoc = findViewById(R.id.BtnGetLoc);
-        try {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            checkPermission();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
-        } catch (Exception e) {
-            Log.d("error", e.getMessage());
-            return;
-        }
+
         BtnGetLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    checkPermission();
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
+                } catch (Exception e) {
+                    Log.d("error", e.getMessage());
+                    return;
+                }
                 if (loc == null) {
                     Toast.makeText(ReportActivity.this,
                             "Please try again in a few seconds. If the problem still persists, please fix your GPS.",
@@ -107,15 +114,44 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
             }
         });
 
+        // Details Section
         editTextMulti = findViewById(R.id.editTextTextMultiLine);
+        textViewWordCount = findViewById(R.id.textViewWordCount);
+        editTextMulti.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int aft) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                // this will show characters remaining
+                textViewWordCount.setText(150 - s.toString().length() + "/150 characters remaining");
+            }
+        });
+
+        // Firebase setup
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // check if it is the right storage bucket
         FirebaseOptions opts = FirebaseApp.getInstance().getOptions();
         Log.i("er", "Bucket = " + opts.getStorageBucket());
         String uniqueId = UUID.randomUUID().toString();  // Generate UUID
         StorageReference storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("reports/" + uniqueId + "/image.png");
+
+        // Get user details
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        String name = user.getDisplayName();
+        Log.d("display name", name);
+        Log.d("uid", uid);
+        StorageReference imagesRef = storageRef.child("reports/"
+                                                    + "user_" + name + "/"
+                                                    + "reportId_" + uniqueId + "/"
+                                                    + "/image.jpeg");
 
         // Submit Button Actions
         btnSubmit = findViewById(R.id.button4);
@@ -125,9 +161,9 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 // check if report still has missing fields
                 if (reportNotComplete()) return;
 
-                // convert image bitmap to string for logging
+                // resize and compress bitmap to keep it as small as possible
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                report.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, baos);
+                getResizedBitmap(report.getBitmap(), 600, 400).compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] b = baos.toByteArray();
                 String temp = Base64.encodeToString(b, Base64.DEFAULT);
 
@@ -162,7 +198,10 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 });;
 
                 // Upload Details & Location
-                StorageReference detailRef = storageRef.child("reports/" + uniqueId + "/details.txt");
+                StorageReference detailRef = storageRef.child("reports/"
+                                                            + "user_" + name + "/"
+                                                            + "reportId_" + uniqueId + "/"
+                                                            + "/details.txt");
                 String details = "Location: " + getAddress(report.getLatitude(), report.getLongitude())
                         + "\n"
                         + "Latitude: " + report.getLatitude() + ", Longitude: " + report.getLongitude()
@@ -289,5 +328,22 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         return address;
     }
 
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+
+        return resizedBitmap;
+    }
 
 }
