@@ -78,17 +78,18 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationTextView = findViewById(R.id.locationTextView);
         Button BtnGetLoc = findViewById(R.id.BtnGetLoc);
-        try {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            checkPermission();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
-        } catch (Exception e) {
-            Log.d("error", e.getMessage());
-            return;
-        }
+
         BtnGetLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    checkPermission();
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
+                } catch (Exception e) {
+                    Log.d("error", e.getMessage());
+                    return;
+                }
                 if (loc == null) {
                     Toast.makeText(ReportActivity.this,
                             "Please try again in a few seconds. If the problem still persists, please fix your GPS.",
