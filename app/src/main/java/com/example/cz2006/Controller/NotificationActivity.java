@@ -32,7 +32,7 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        myAlarm();
+        setNotificationAlarm();
 
         notification1 = (TextView) findViewById(R.id.time);
         notification2 = (TextView) findViewById(R.id.content);
@@ -41,11 +41,11 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-    public void myAlarm() {
+    public void setNotificationAlarm() {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
-        calendar.set(Calendar.MINUTE, 26);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         if (calendar.getTime().compareTo(new Date()) < 0)
@@ -71,8 +71,8 @@ public class NotificationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                notification1.append("\n" + document.getData().get("time").toString() + "\n\n");
-                                notification2.append("\n" + document.getData().get("content").toString() + "\n\n");
+                                notification1.append(document.getData().get("time").toString() + "\n\n");
+                                notification2.append(document.getData().get("content").toString() + "\n\n");
                             }
                         }
                     }
