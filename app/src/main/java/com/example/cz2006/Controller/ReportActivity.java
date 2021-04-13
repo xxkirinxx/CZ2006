@@ -1,7 +1,9 @@
 package com.example.cz2006.Controller;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,9 +13,12 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
@@ -26,15 +31,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.cz2006.Entity.Report;
 import com.example.cz2006.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,36 +80,93 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
     private boolean uploadFailed = false;
     private Report report = new Report();
 
+    private String address;
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
-        // Location
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationTextView = findViewById(R.id.locationTextView);
         Button BtnGetLoc = findViewById(R.id.BtnGetLoc);
 
+        // Get Location
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // check if location is enabled and prompt user to go settings if disabled
+        if (!isLocationEnabled(ReportActivity.this)) {
+                    final AlertDialog.Builder builder =  new AlertDialog.Builder(ReportActivity.this);
+                    final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+                    final String message = "GPS is disabled. Do you want to open your GPS settings?";
+
+                    builder.setMessage(message)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface d, int id) {
+                                            ReportActivity.this.startActivity(new Intent(action));
+                                            d.dismiss();
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface d, int id) {
+                                            d.cancel();
+                                        }
+                                    });
+                    builder.create().show();
+        }
+
+
         BtnGetLoc.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View v) {
-                try {
-                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    checkPermission();
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
-                } catch (Exception e) {
-                    Log.d("error", e.getMessage());
-                    return;
-                }
+                if (checkLocPermission() == false) return;  // check location permissions
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
+                fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if(task.isSuccessful()) {
+                            Location location= task.getResult();
+                            if(location!=null) {
+                               loc = location;
+                            }
+                        }
+                    }
+                });
+
                 if (loc == null) {
                     Toast.makeText(ReportActivity.this,
-                            "Please try again in a few seconds. If the problem still persists, please fix your GPS.",
+                            "Location is null. Permissions not granted or GPS not on. Try again later.",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
                 report.setLocation(loc);
+
+                // Run in background thread
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // do your stuff
+                        getAddress(report.getLatitude(), report.getLongitude());
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                // do onPostExecute stuff
+                            }
+                        });
+                    }
+                }).start();
+
                 tappedBtnGetLoc = true;
-                locationTextView.setText("Current Location:\n" + getAddress(report.getLatitude(), report.getLongitude()));
+                if (address == null) {
+                    Toast.makeText(ReportActivity.this,
+                            "Geocoding not working. Defaulting to LatLng. Try again later. If the problem persists, please restart your phone.",
+                            Toast.LENGTH_LONG).show();
+                    locationTextView.setText("Current Location:\n" + report.getLatitude() + ", " + report.getLongitude());
+                } else {
+                    locationTextView.setText("Current Location:\n" + address);
+                }
             }
         });
 
@@ -171,7 +239,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                         "Submitting Report...",
                         Toast.LENGTH_SHORT).show();
 
-                // Upload Image
+                // Upload Image to Firebase
                 UploadTask uploadTask = imagesRef.putBytes(b);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -197,17 +265,29 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                     }
                 });;
 
-                // Upload Details & Location
+                // Upload Details & Location to Firebase
                 StorageReference detailRef = storageRef.child("reports/"
                                                             + "user_" + name + "/"
                                                             + "reportId_" + uniqueId + "/"
                                                             + "/details.txt");
-                String details = "Location: " + getAddress(report.getLatitude(), report.getLongitude())
-                        + "\n"
-                        + "Latitude: " + report.getLatitude() + ", Longitude: " + report.getLongitude()
-                        + "\n\n"
-                        + "Details:\n"
-                        + report.getDetails();
+                String details = null;
+
+                if (address == null) {
+                    details = "Location: "
+                            + "\n"
+                            + "Latitude: " + report.getLatitude() + ", Longitude: " + report.getLongitude()
+                            + "\n\n"
+                            + "Details:\n"
+                            + report.getDetails();
+                } else {
+                    details = "Location: " + address
+                            + "\n"
+                            + "Latitude: " + report.getLatitude() + ", Longitude: " + report.getLongitude()
+                            + "\n\n"
+                            + "Details:\n"
+                            + report.getDetails();
+                }
+
                 detailRef.putBytes(details.getBytes()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -249,6 +329,26 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         loc = location;
     }
 
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.e("provider", "disabled");
+    }
+
+    // Get Image and Set to ImageView
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_CAMERA) {
+            try {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                IVPreviewImage.setImageBitmap(bitmap);
+                report.setBitmap(bitmap);
+            } catch (NullPointerException e) {
+                System.out.println(e.getStackTrace());
+            }
+        }
+    }
+
     public boolean reportNotComplete() {
         if (report.getBitmap() == null) {
             Toast.makeText(ReportActivity.this,
@@ -275,21 +375,6 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         return false;
     }
 
-    // Get Image and Set to ImageView
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_CAMERA) {
-            try {
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                IVPreviewImage.setImageBitmap(bitmap);
-                report.setBitmap(bitmap);
-            } catch (NullPointerException e) {
-                System.out.println(e.getStackTrace());
-            }
-        }
-    }
-
     // Check cam permission and get if not already granted
     public boolean camPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -301,31 +386,35 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
     }
 
     // perm for loc
-    public void checkPermission() {
+    public boolean checkLocPermission() {
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
+            return false;
         }
+        return true;
     }
 
     // convert latitude & longitude into actual address
-    private String getAddress(double latitude, double longitude) {
+    private void getAddress(double latitude, double longitude) {
         Geocoder geocoder;
+        String address = null;
         List<Address> addresses = null;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            address = addresses.get(0).getAddressLine(0);
+            Log.e("address", address);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        String address = addresses.get(0).getAddressLine(0);
-
-        Log.d("address", address);
-        return address;
+        
+        this.address = address;
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
@@ -346,4 +435,24 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         return resizedBitmap;
     }
 
+    public static boolean isLocationEnabled(Context context) {
+        int locationMode = 0;
+        String locationProviders;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+
+        } else{
+            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+    }
 }
