@@ -285,7 +285,12 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error Response", error.toString());
+                Context context = getApplicationContext();
+                CharSequence text = "NEA server is currently unavailable.\nPlease try again later.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         }
         );

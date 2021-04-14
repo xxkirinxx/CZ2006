@@ -3,7 +3,6 @@ package com.example.cz2006.Controller;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -128,24 +127,22 @@ public class MainActivity extends AppCompatActivity {
 
                 GPSTracker gpsTracker = new GPSTracker(MainActivity.this);
                 LatLng currentllg= new LatLng(gpsTracker.latitude,gpsTracker.longitude);
-                //update test area - serangoon
-                //LatLng currentllg= new LatLng(1.3554,103.8679);
+
                 getAllLatLngs();
                 int area = getNearestArea(currentllg,latLngs);
                 String desc = neaResult.get(area).getDesc();
                 String nearCase = neaResult.get(area).getCaseSize();
                 String message = "";
-                //Toast.makeText(getApplicationContext(),desc,Toast.LENGTH_LONG);
 
                 if(Double.parseDouble(nearCase) >= 10){
                     message = "RED <br/><br/>";
-                    txtMessage.setBackgroundColor(Color.RED);
+                    txtMessage.setBackgroundColor(0xFFFF3333);
                 }else if(Double.parseDouble(nearCase)<10 && Double.parseDouble(nearCase)>0){
                     message = "YELLOW <br/><br/>";
-                    txtMessage.setBackgroundColor(Color.YELLOW);
+                    txtMessage.setBackgroundColor(0xFFE6E600);
                 }else if(Double.parseDouble(nearCase)==0){
                     message = "GREEN <br/><br/>";
-                    txtMessage.setBackgroundColor(Color.GREEN);
+                    txtMessage.setBackgroundColor(0xFF33CC33);
                 }
                 txtMessage.setText(Html.fromHtml("<big><u><span style:'text-align:center;'>"+message+ "</span></u></big><big>" + nearCase + "</big>" + " cases nearest to your current location." + "<br/> <br/> <b>Nearest Location:</b> " + desc));
                 txtMessage.setPadding(30,30,30,30);

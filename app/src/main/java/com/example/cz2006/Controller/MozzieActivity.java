@@ -118,9 +118,9 @@ public class MozzieActivity extends AppCompatActivity {
                 for (String x : points)
                     point.append(x);
                 if (point.length() > 4)
-                    stringBuilder.append("\n").append("You have completed the mozzie wipeout!");
+                    stringBuilder.append("\n").append("You have completed the Mozzie Wipeout!");
                 else
-                    stringBuilder.append("\n").append("You have not completed the mozzie wipeout :(");
+                    stringBuilder.append("\n").append("You have not completed the Mozzie Wipeout");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MozzieActivity.this);
                 builder.setCancelable(true);
