@@ -202,21 +202,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
      * installed Google Play services and returned to the app.
      */
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(checkMapServices()){
-//            if(mLocationPermissionGranted){
-//                getChatrooms();
-//            }
-//            else{
-//                getLocationPermission();
-//            }
-//        }
-//    }
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -355,31 +340,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     // Error handling
                 }
             }
-
-            /*if(latLngs.size()>0){
-                PolygonOptions poly = new PolygonOptions();
-
-                if
-                poly.fillColor(Color.clusterColor);
-
-                // Initial point
-                //poly.add(new LatLng(9.6632139, 80.0133258);
-
-                // ... then the rest.
-                for(int i = 0; i < length; i++)
-                {
-                    poly.add(new LatLng(array[i].a, array[i].b));
-                }
-
-                // Done! Add to map.
-                mMap.addPolygon(poly);
-            }else{
-                // Error handling
-            }*/
-
-
-
-
         }
 
     }
