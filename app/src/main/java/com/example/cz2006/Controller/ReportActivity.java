@@ -38,9 +38,6 @@ import androidx.core.app.ActivityCompat;
 import com.example.cz2006.Entity.Report;
 import com.example.cz2006.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -68,19 +65,16 @@ import static com.example.cz2006.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCAT
 
 public class ReportActivity extends AppCompatActivity implements LocationListener {
     private FusedLocationProviderClient fusedLocationClient;
-    private Location loc;
     private LocationManager locationManager;
     private ImageView IVPreviewImage;
     private EditText editTextMulti;
     private Button btnSubmit;
     private TextView locationTextView;
     private TextView textViewWordCount;
-
+    private String address;
     private boolean tappedBtnGetLoc = false;
     private boolean uploadFailed = false;
     private Report report = new Report();
-
-    private String address;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -93,82 +87,58 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
 
         // Get Location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        // check if location is enabled and prompt user to go settings if disabled
         if (!isLocationEnabled(ReportActivity.this)) {
-                    final AlertDialog.Builder builder =  new AlertDialog.Builder(ReportActivity.this);
-                    final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-                    final String message = "GPS is disabled. Do you want to open your GPS settings?";
-
-                    builder.setMessage(message)
-                            .setPositiveButton("OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface d, int id) {
-                                            ReportActivity.this.startActivity(new Intent(action));
-                                            d.dismiss();
-                                        }
-                                    })
-                            .setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface d, int id) {
-                                            d.cancel();
-                                        }
-                                    });
-                    builder.create().show();
+            gpsSettingsPrompt();
+//            return;
         }
 
-
         BtnGetLoc.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onClick(View v) {
-                if (checkLocPermission() == false) return;  // check location permissions
-                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
-                fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if(task.isSuccessful()) {
-                            Location location= task.getResult();
-                            if(location!=null) {
-                               loc = location;
-                            }
-                        }
-                    }
-                });
-
-                if (loc == null) {
-                    Toast.makeText(ReportActivity.this,
-                            "Location is null. Permissions not granted or GPS not on. Try again later.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                report.setLocation(loc);
-
-                // Run in background thread
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // do your stuff
-                        getAddress(report.getLatitude(), report.getLongitude());
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                // do onPostExecute stuff
-                            }
-                        });
-                    }
-                }).start();
-
-                tappedBtnGetLoc = true;
-                if (address == null) {
-                    Toast.makeText(ReportActivity.this,
-                            "Geocoding not working. Defaulting to LatLng. Try again later. If the problem persists, please restart your phone.",
-                            Toast.LENGTH_LONG).show();
-                    locationTextView.setText("Current Location:\n" + report.getLatitude() + ", " + report.getLongitude());
-                } else {
-                    locationTextView.setText("Current Location:\n" + address);
-                }
-            }
-        });
+             @SuppressLint("MissingPermission")
+             @Override
+             public void onClick(View v) {
+                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     if (ActivityCompat.checkSelfPermission(ReportActivity.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                         ActivityCompat.requestPermissions(ReportActivity.this,
+                                 new String[]{ACCESS_FINE_LOCATION},
+                                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                     } else {
+                         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ReportActivity.this);
+                     }
+                 }
+                 fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Location> task) {
+                         if (task.isSuccessful()) {
+                             Location location = task.getResult();
+                             if (location != null) {
+                                 report.setLocation(location);
+                                 tappedBtnGetLoc = true;
+                                 getAddress(report.getLatitude(), report.getLongitude());
+                                 if (address == null) {
+                                     Toast.makeText(ReportActivity.this,
+                                            "Geocoding not working. Defaulting to LatLng. " +
+                                                    "Try again later. If the problem persists, " +
+                                                    "please restart your phone.",
+                                            Toast.LENGTH_LONG).show();
+                                     locationTextView.setText("Current Location:\n"
+                                             + report.getLatitude() + ", " + report.getLongitude());
+                                 } else {
+                                     locationTextView.setText("Current Location:\n" + address);
+                                 }
+                                                 locationTextView.setText("Current Location:\n" + address);
+                             } else {
+                                 Toast.makeText(ReportActivity.this,
+                                         "Location is null. Permissions not granted or GPS " +
+                                                 "not on. Try again later.",
+                                         Toast.LENGTH_SHORT).show();
+                                 return;
+                             }
+                         }
+                     }
+                 });
+             }
+         });
 
         // Upload Image
         IVPreviewImage = findViewById(R.id.IVPreviewImage);
@@ -315,7 +285,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 IVPreviewImage.setImageBitmap(null);
                 locationTextView.setText("");
                 tappedBtnGetLoc = false;
-                loc = null;
+                report.setLocation(null);
 
                 Toast.makeText(ReportActivity.this,
                         "Report Submitted!",
@@ -326,7 +296,7 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        loc = location;
+        report.setLocation(location);
     }
 
     @Override
@@ -347,6 +317,28 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
                 System.out.println(e.getStackTrace());
             }
         }
+    }
+
+    public void gpsSettingsPrompt() {
+        final AlertDialog.Builder builder =  new AlertDialog.Builder(ReportActivity.this);
+        final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+        final String message = "GPS is disabled. Do you want to open your GPS settings?";
+
+        builder.setMessage(message)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                ReportActivity.this.startActivity(new Intent(action));
+                                d.dismiss();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                d.cancel();
+                            }
+                        });
+        builder.create().show();
     }
 
     public boolean reportNotComplete() {
@@ -380,17 +372,6 @@ public class ReportActivity extends AppCompatActivity implements LocationListene
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
-            return false;
-        }
-        return true;
-    }
-
-    // perm for loc
-    public boolean checkLocPermission() {
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             return false;
         }
         return true;
